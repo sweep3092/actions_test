@@ -37,3 +37,13 @@ jobs:
       - name: ENV
         run: |
           echo $TARGET_ENV
+
+      - name: Slack Notification
+        uses: Gamesight/slack-workflow-status@v1.0.1
+        with:
+          slack_webhook_url: ${{secrets.SLACK_WEBHOOK_URL}}
+          repo_token: ${{secrets.GITHUB_TOKEN}}
+          channel: '#saiteki_deploy'
+          name: 'GitHub Actions'
+          icon_emoji: ':test_tube:'
+
