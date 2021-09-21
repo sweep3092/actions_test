@@ -26,8 +26,13 @@ jobs:
         env:
           DEFAULT_TARGET_ENV: prod
         run: |
-          export TAG_ENV=${ echo '${{github.ref}}' | sed -n -E 's/^refs\/tags\/(dev|stg|prod)-.*$/\1/p' }
-          echo "TARGET_ENV=${{ github.event.inputs.target_env || env.TAG_ENV || env.DEFAULT_TARGET_ENV }}" >> $GITHUB_ENV
+          TAG_ENV=$(echo '${{github.ref}}' | sed -n -E 's/^refs\/tags\/(dev|stg|prod)-.*$/\1/p')
+          echo $TAG_ENV
+          if [ -n "$TAG_ENV" ]; then
+            echo "TARGET_ENV=${{ github.event.inputs.target_env || env.TAG_ENV || env.DEFAULT_TARGET_ENV }}" >> $GITHUB_ENV
+          else
+            echo "TARGET_ENV=$TAG_ENV" >> $GITHUB_ENV
+          fi
 
       - name: ENV
         run: |
