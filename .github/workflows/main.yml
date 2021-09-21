@@ -7,7 +7,13 @@ on:
       - stg-*
       - prod-*
 
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'target environment [dev|stg|prod].'
+        default: prod
+        required: true
 
 env:
   AWS_REGION: ap-northeast-1
